@@ -62,6 +62,10 @@ import xxx from:若from的来源是文件夹，那么在package.json存在且设
 // 路由的魔法注释  使用import import函数的懒加载
 const Home = () => import(/* webpackChunkName: 'ImportFuncDemo' */ '@/components/home')
 ```
+路由拆分管理：  
+这里说的路由拆分指的是将路由的文件，按照模块拆分，这样方便路由的管理，更主要的是方便多人开发。具体要不要拆分，那就要视你的项目情况来定了，如果项目较小的话，也就一二十个路由，那么是拆分是非常没必要的。但倘若你开发一些功能点较多的商城项目，路由可以会有一百甚至几百个，那么此时将路由文件进行拆分是很有必要的。不然，你看着index.js文件中一大长串串串串串串的路由，也是很糟糕的。  
+如果你的路由模式是history的，那么打包放在服务器，必须要后台服务器的配合，具体的可以看官方文档，这点很重要
+
 Vuex  state专门用来保存 共享的状态值	 mutations: 专门书写方法,用来更新 state 中的值  
 `this.$store.dispatch()`与`this.$store.commit()`方法的区别总的来说他们只是存取方式的不同,两个方法都是传值给vuex的mutation改变state
 commit: 同步操作  
