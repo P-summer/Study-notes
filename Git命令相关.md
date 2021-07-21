@@ -19,7 +19,7 @@ git push origin myBranch(origin myBranch可省略)
 git branch F1338317_penghy		要在本地创建分支  然后对应源  
 git push --set-upstream origin F1338317_penghy		设置上游  
 git checkout master		git pull	git checkout F1338317_penghy	git merge master  
-
+# 
 执行以下命令查看是否使用了淘宝的镜像地址，如果是，就改为原来的地址：  
 npm config get registry  
 npm config set registry=http://registry.npmjs.org  
