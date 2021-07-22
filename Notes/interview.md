@@ -32,4 +32,19 @@ say.apply(obj, ['咿呀咿呀哟', '呱呱！']); // 我是一只小鸭子，咿
 const manualSay = say.bind(obj, '咿呀咿呀哟', '呱呱！'); // 绑定但不是立即执行
 manualSay(); // 手动执行，输出：我是一只小鸭子，咿呀咿呀哟，呱呱！
 ```
-__性能比较__：call 的性能要比 apply 好一些（尤其是传递给函数的参数超过三个的时候）。  [实现](https://leetoffer.com/question/608fbbb4a8cba06305b045f8)
+__性能比较__：call 的性能要比 apply 好一些（尤其是传递给函数的参数超过三个的时候）。  [其他实现](https://leetoffer.com/question/608fbbb4a8cba06305b045f8)
+```javascript
+// call 实现
+Function.prototype.myCall = function(context) {
+  context = context || window; // 默认 window
+  const args = [...arguments].slice(1); // 参数
+  const fn = Symbol(); // 给 context 设置一个独一无二的属性，避免覆盖原有属性
+  context[fn] = this; // 这里的 this 指向调用它的函数 say
+  // 调用  此时say方法里面的this指向context，如果say方法是箭头函数的话，就会指向window，亲测
+  const result = context[fn](...args);
+  delete context[fn]; // 删除添加的属性
+  return result; // 返回值
+}
+
+say.myCall(obj, '咿呀咿呀哟', '呱呱！') // 我是一只小鸭子，咿呀咿呀哟，呱呱！
+```
