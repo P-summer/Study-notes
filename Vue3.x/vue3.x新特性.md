@@ -1,0 +1,81 @@
+### v-for 中的 Ref 数组
+在 Vue 2 中，在 v-for 里使用的 ref attribute 会用 ref 数组填充相应的 $refs property。当存在嵌套的 v-for 时，这种行为会变得不明确且效率低下。  
+在 Vue 3 中，这样的用法将不再在 $ref 中自动创建数组。要从单个绑定获取多个 ref，请将 ref 绑定到一个更灵活的函数上 (这是一个新特性)
+### 异步组件
++ 新的 defineAsyncComponent 助手方法，用于显式地定义异步组件
++ component 选项重命名为 loader
++ Loader 函数本身不再接收 resolve 和 reject 参数，且必须返回一个 Promise
+```javascript
+//2.x 异步组件是通过将组件定义为返回 Promise 的函数来创建
+const asyncModal = () => import('./Modal.vue')
+//带有选项的更高阶的组件语法
+const asyncModal = {
+  component: () => import('./Modal.vue'),
+  delay: 200,
+  timeout: 3000,
+  error: ErrorComponent,
+  loading: LoadingComponent
+}
+
+//3.x 语法
+// 不带选项的异步组件
+const asyncModal = defineAsyncComponent(() => import('./Modal.vue'))
+// 带选项的异步组件
+const asyncModalWithOptions = defineAsyncComponent({
+  loader: () => import('./Modal.vue'),
+  delay: 200,
+  timeout: 3000,
+  errorComponent: ErrorComponent,
+  loadingComponent: LoadingComponent
+})
+
+// 2.x 版本
+const oldAsyncComponent = (resolve, reject) => {
+  /* ... */
+}
+// 3.x 版本
+const asyncComponent = defineAsyncComponent(
+  () =>
+    new Promise((resolve, reject) => {
+      /* ... */
+    })
+)
+```
+### $children 移除
+在 3.x 中，$children property 已移除，不再支持。如果你需要访问子组件实例，使用 $refs
+### 自定义指令
+指令的钩子函数已经被重命名，以更好地与组件的生命周期保持一致。 
+
+__3.x语法__
++ created - 新的！在元素的 attribute 或事件侦听器应用之前调用。
++ bind → beforeMount
++ inserted → mounted
++ beforeUpdate：新的！这是在元素本身更新之前调用的，很像组件生命周期钩子。
++ update → 移除！有太多的相似之处要更新，所以这是多余的，请改用 updated。
++ componentUpdated → updated
++ beforeUnmount：新的！与组件生命周期钩子类似，它将在卸载元素之前调用。
++ unbind -> unmounted
+```JavaScript
+// 最终API如下
+const MyDirective = {
+  created(el, binding, vnode, prevVnode) {}, // 新增
+  beforeMount() {},
+  mounted() {},
+  beforeUpdate() {}, // 新增
+  updated() {},
+  beforeUnmount() {}, // 新增
+  unmounted() {}
+}
+```
+```html
+<p v-highlight="'yellow'">高亮显示此文本亮黄色</p>
+```
+```javascript
+const app = Vue.createApp({})
+
+app.directive('highlight', {
+  beforeMount(el, binding, vnode) {
+    el.style.background = binding.value
+  }
+})
+```
