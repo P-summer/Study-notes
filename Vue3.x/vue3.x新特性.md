@@ -92,4 +92,35 @@ emits 可以是数组或对象，从组件触发自定义事件，emits 可以�
 $on，$off 和 $once 实例方法已被移除，组件实例不再实现事件触发接口。  
 + 2.x 语法:在 2.x 中，Vue 实例可用于触发由事件触发 API 通过指令式方式添加的处理函数 ($on，$off 和 $once)。这可以创建 event bus，用来创建在整个应用程序中可用的全局事件监听器
 + 3.x 更新:我们从实例中完全移除了 $on、$off 和 $once 方法。$emit 仍然包含于现有的 API 中，因为它用于触发由父组件声明式添加的事件处理函数。
-+ Event Bus：Event bus 模式可以被替换为实现了事件触发器接口的外部库，例如 mitt 或 tiny-emitter
++ Event Bus：Event bus 模式可以被替换为实现了事件触发器接口的外部库，例如 mitt 或 tiny-emitter，[代码示例](https://github.com/P-summer/Study-notes/blob/main/Vue3.x/vue3-EventBus.md)  
+### 过滤器移除
++ 在 2.x，开发者可以使用过滤器来处理通用文本格式。虽然这看起来很方便，但它需要一个自定义语法，打破大括号内表达式是“只是 JavaScript”的假设，这不仅有学习成本，而且有实现成本。ps:其实自己接班都没用过这个，一般都是用计算属性
++ 在 3.x 中，过滤器已删除，不再支持。此时用方法调用或计算属性替换它们。__全局过滤器__:如果在应用中全局注册了过滤器，那么在每个组件中用计算属性或方法调用来替换它可能就没那么方便了。此时可以用全局属性  
+```JavaScript
+// main.js
+const app = createApp(App)
+
+app.config.globalProperties.$filters = {
+  currencyUSD(value) {
+    return '$' + value
+  }
+}
+```
+```HTML
+// 然后，通过 $filters 对象修改所有的模板
+<template>
+  <h1>Bank Account Balance</h1>
+  <p>{{ $filters.currencyUSD(accountBalance) }}</p>
+</template>
+```
+### 片段 新增
+Vue 3 现在正式支持了多根节点的组件，也就是片段！
++ 在 2.x 中，由于不支持多根节点组件，当开发者意外创建一个时会发出警告。为了修复这个问题，许多组件被包裹在一个 <div> 中。
++ 在 3.x 中，组件可以包含多个根节点！但是，这要求开发者显式定义 attribute 应该分布在哪里。  
+```html
+<template>
+  <header>...</header>
+  <main v-bind="$attrs">...</main>
+  <footer>...</footer>
+</template>
+```
