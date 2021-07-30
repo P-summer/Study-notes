@@ -1,5 +1,6 @@
 ```javascript
-// 子组件emits.vue
+// 子组件emits.vue  如果事件不是在根元素，可以不同emits声明，如果事件在根元素，不用emits声明会有警告
+// 在 setup 函数或者methods里面发送emit事件效果一样
 <template>
   <button @click="handleClick">点击emit-click事件</button>
   <button @click="handleOpen">点击emit-open事件</button>
