@@ -57,10 +57,10 @@ import xxx from:若from的来源是文件夹，那么在package.json存在且设
 路由配置完成后, 就要使用 router-view 进行渲染了 (只要有子路由, 就要用它来渲染);  
 路由懒加载：
 ```JavaScript
-// 路由的异步加载
+// 路由的异步加载  使用了resolve的异步机制，用require代替了import,实现按需加载
 { path: '/home', name: 'home', component: resolve => require(['@/components/home'],resolve) }
-// 路由的魔法注释  使用import import函数的懒加载
-const Home = () => import(/* webpackChunkName: 'ImportFuncDemo' */ '@/components/home')
+// 路由的魔法注释   import函数的懒加载
+component: () => import(/* webpackChunkName: 'ImportFuncDemo' */ '@/components/home')
 ```
 路由拆分管理：  
 这里说的路由拆分指的是将路由的文件，按照模块拆分，这样方便路由的管理，更主要的是方便多人开发。具体要不要拆分，那就要视你的项目情况来定了，如果项目较小的话，也就一二十个路由，那么是拆分是非常没必要的。但倘若你开发一些功能点较多的商城项目，路由可以会有一百甚至几百个，那么此时将路由文件进行拆分是很有必要的。不然，你看着index.js文件中一大长串串串串串串的路由，也是很糟糕的。  
