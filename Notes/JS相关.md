@@ -70,4 +70,66 @@ function instanceof(L,R) {
   }
 }
 ```
+### JS new操作符
++ 创建一个空对象  
++ 让空对象的 __proto__ (IE 没有该属性) 成员指向构造函数的 prototype 成员对象  
++ 使用 apply 调用构造函数，属性和方法被添加到 this 引用的对象中  
++ 如果构造函数中没有返回其他对象，那么返回 this，即创建的这个新对象；否则，返回构造函数返回的对象  
+```javascript
+function create(Con.prototype, ...args) {
+  let obj = {};
+  obj.__proto__ == Con.prototype;
+  let result = Con.apply(obj, args);
+  return result instanceof Object ? result : obj;
+}
+```
 ### JS继承
+```javascript
+function Father(name) {
+  // 实例属性
+  this.name = name
+  // 实例方法
+  this.sayName = function() {
+    console.log(this.name)
+  }
+}
+// 原型属性
+Father.prototype.age = 19
+// 原型方法
+Father.prototype.sayAge = function() {
+  console.log(this.age)
+}
+```
++ 原型链继承：将父类的实例作为子类的原型
+```javascript
+function Son(name) {
+  this.name = name
+}
+Son.prototype = new Father()
+const son = new Son('son')
+son.sayName() // son
+son.sayAge() // 19
+//  简单，易于实现;父类新增原型方法、原型属性，子类都能访问到
+//  无法实现多继承，因为原型一次只能被一个实例更改;来自原型对象的所有属性被所有实例共享;创建子类实例时，无法向父构造函数传参
+```
++ 构造继承:复制父类的实例属性给子类
+```javascript
+function Son(name) {
+	Father.call(this, "Son props")
+  this.name = name
+}
+const son = new Son('son')
+son.sayName() // son
+son.sayAge() // 报错，无法继承父类原型
+console.log(son instanceof Son) // true
+console.log(son instanceof Father) // false
+//  创建子类实例时，可以向父类传参;可以实现多继承（call 多个父类对象）
+//  实例并不是父类的实例，只是子类的实例;只能继承父类实例属性和方法，不能继承原型属性和方法
+```
++ 组合继承:将原型链和构造函数组合一起，使用原型链实现对原型属性和方法的继承，使用构造函数实现实例属性继承
++ 实例继承:为父类实例添加新特性，作为子类实例返回
+
+
+
+
+
