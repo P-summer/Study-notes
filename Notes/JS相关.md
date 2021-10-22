@@ -115,7 +115,7 @@ son.sayAge() // 19
 + 构造继承:复制父类的实例属性给子类
 ```javascript
 function Son(name) {
-	Father.call(this, "Son props")
+  Father.call(this, "Son props")
   this.name = name
 }
 const son = new Son('son')
@@ -128,7 +128,42 @@ console.log(son instanceof Father) // false
 ```
 + 组合继承:将原型链和构造函数组合一起，使用原型链实现对原型属性和方法的继承，使用构造函数实现实例属性继承
 + 实例继承:为父类实例添加新特性，作为子类实例返回
+```javascript
+function Son(name) {
+  const father = new Father('Son Props')
+  father.name = name
+  return father
+}
 
+const son = new Son('son')
+son.name // son
+son.sayAge() // 19
+son.sayName // son
+son instanceof Father // true
+son instanceof Son // false
+son.constructor === Father // true
+son.constructor === Son // false
+// 不限制调用方式;  实例是父类的实例，不是子类的实例;不支持多继承
+```
++ 拷贝继承：对父类实例中的方法和属性拷贝给子类的原型
++ 寄生组合继承：通过寄生方式，砍掉父类的实例属性，避免组合继承生成两份实例的缺点
+```javascript
+function Son(name) {
+  Father.call(this)
+  this.name = name
+}
+// Object.create()方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__。
+Son.prototype = Object.create(Father.prototype)
+Son.prototype.constructor = Son
+const son = new Son('son')
+son.sayAge // 19
+son.sayName // son
+son instanceof Father // true
+son instanceof Son // true
+son.constructor === Father // false
+son.constructor === Son // true
+// 比较完美（js 实现继承首选方式）;实现方式较为复杂
+```
 
 
 
