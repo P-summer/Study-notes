@@ -75,8 +75,29 @@ dispatch: 异步操作
   存储 `this.$store.dispatch('getlists',name)`  
   取值 `this.$store.getters.getlists`  
 vue-cropper:vue裁剪组件  
-##### vue项目使用.env文件配置全局环境变量
+### vue项目使用.env文件配置全局环境变量
 + env 全局默认配置文件，不论什么环境都会加载合并
 + env.development 开发环境下的配置文件
 + env.production 生产环境下的配置文件  
 属性名必须以VUE_APP_开头，比如VUE_APP_XXX，process.env属性（全局属性，任何地方均可使用）
+
+##### 输入框数字校验
+```javascript
+let checkVal = e.score
+  .replace(/[^\d.]/g, '') //只能是数字和.
+  .replace('.', '$#$') //.只出现一次
+  .replace(/\./g, '')
+  .replace('$#$', '.');
+  let count = 0; // 小数后出现几位
+  let isFirst = false; //开头不是点
+  let isEnd = false; // 结尾不是点
+  if (checkVal.indexOf('.') > -1) {
+    count = checkVal.substring(checkVal.indexOf('.') + 1).length;
+    if (checkVal.indexOf('.') == 0) {
+      isFirst = true;
+    }
+    if (checkVal.indexOf('.') == checkVal.length - 1) {
+      isEnd = true;
+    }
+  }
+```
