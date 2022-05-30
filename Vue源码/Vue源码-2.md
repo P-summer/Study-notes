@@ -1,4 +1,4 @@
-```
+```JavaScript
 //core/instance/index	vue初始化方法
 function Vue (options) {
   if (process.env.NODE_ENV !== 'production' &&
