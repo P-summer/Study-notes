@@ -1,4 +1,4 @@
-```
+```JavaScript
 /** 打开Vue的源码文件，其核心代码在src/core目录下
 *   node_modules\vue\src\core\index.js		https://github.com/muwoo/blogs/blob/master/src/Vue/1.md
 */
