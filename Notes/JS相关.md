@@ -78,7 +78,7 @@ function instanceof(L,R) {
 ```javascript
 function create(Con.prototype, ...args) {
   let obj = {};
-  obj.__proto__ == Con.prototype;
+  obj.__proto__ = Con.prototype;
   let result = Con.apply(obj, args);
   return result instanceof Object ? result : obj;
 }
