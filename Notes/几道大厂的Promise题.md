@@ -1,7 +1,7 @@
 ### 使用Promise实现每隔1秒输出1,2,3
 ```javascript
 //reduce(function(previousValue, currentValue, currentIndex, array) { /* ... */ }, initialValue)
-//在第一次调用时，若指定了初始值 initialValue，其值则为 initialValue
+//previousValue: 在第一次调用时，若指定了初始值 initialValue，其值则为 initialValue
 //currentValue：数组中正在处理的元素。在第一次调用时，若指定了初始值 initialValue，其值则为数组索引为 0 的元素 array[0]，否则为 array[1]
 const arr = [1, 2, 3];
 arr.reduce((pre, cur)=>{
