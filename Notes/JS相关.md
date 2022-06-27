@@ -152,7 +152,7 @@ function Son(name) {
   Father.call(this)
   this.name = name
 }
-// Object.create()方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__。
+// Object.create()方法创建一个新对象，指定新建对象的__proto__。
 Son.prototype = Object.create(Father.prototype)
 Son.prototype.constructor = Son
 const son = new Son('son')
