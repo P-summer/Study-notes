@@ -163,6 +163,18 @@ son instanceof Son // true
 son.constructor === Father // false
 son.constructor === Son // true
 // 比较完美（js 实现继承首选方式）;实现方式较为复杂
+
+/** ES6 class继承  extends  super
+*  子类必须得在constructor中调用super方法，否则新建实例就会报错，因为子类自己没有自己的this对象，而是继承父类的this对象，然后对其加工，如果不调用super的话子类就得不到this对象
+*  子类constructor中如果要使用this的话就必须放到super()之后
+*  super当成函数调用时只能在子类的construtor中使用
+*/
+class Son extends Father {
+  constructor (name) {
+    super(name)
+    this.sex = 'boy'
+  }
+}
 ```
 ### var、const、let 对比
 + 在同一个作用域内，var 可以重复声明变量，let、const 不能重复声明同一个变量。ES5 是函数作用域，即一个函数内就是一个作用域，ES6 是块级作用域，花括号内就是一个作用域。
