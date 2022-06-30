@@ -8,7 +8,7 @@
 ### 长连接
 HTTP/1.1 支持长连接和管道化连接，在一个 TCP 连接上可以传送多个 HTTP 请求，避免了因为多次建立 TCP 连接的时间消耗和延时(Connection:keep-alive)
 ### 缓存处理
-HTTP/1.1 新增了 ETag、If-Unmodified-Since、If-Match 、If-None-Match 等新的请求头来控制缓存
+HTTP/1.1 新增了 ETag、If-Modified-Since、If-Match 、If-None-Match 等新的请求头来控制缓存
 ### 带宽优化以及网络连接的使用
 HTTP/1.1 在请求头中引入了 range，支持断点续传的功能
 ### Host 头处理
