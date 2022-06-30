@@ -1,4 +1,4 @@
-## HTTP状态码
+## HTTP常用状态码
 + 200 OK,请求成功
 + 204 No Content，没有资源返回
 + 206 Partial Content，当从客户端发送Range范围标头以只请求资源的一部分时，将使用此响应代码
