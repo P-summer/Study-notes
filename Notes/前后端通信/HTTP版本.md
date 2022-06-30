@@ -1,3 +1,20 @@
+## HTTP状态码
++ 200 OK,请求成功
++ 204 No Content，没有资源返回
++ 206 Partial Content，当从客户端发送Range范围标头以只请求资源的一部分时，将使用此响应代码
++ 301 Moved Permanently，请求资源的 URL 已永久更改。在响应中给出了新的 URL。
++ 302 Found，请求资源的 URI 已 暂时 更改
++ 303 See Other，指示客户端通过一个 GET 请求在另一个 URI 中获取所请求的资源
++ 304 Not Modified，它告诉客户端响应还没有被修改，因此客户端可以继续使用相同的缓存版本的响应
++ 307 Temporary Redirect，这与 302 Found HTTP 响应代码具有相同的语义，但用户代理 不能 更改所使用的 HTTP 方法：如果在第一个请求中使用了 POST，则在第二个请求中必须使用 POST
++ 400 Bad Request，由于被认为是客户端错误（例如，错误的请求语法、无效的请求消息帧或欺骗性的请求路由），服务器无法或不会处理请求。
++ 401 Unauthorized，客户端必须对自身进行身份验证才能获得请求的响应
++ 403 Forbidden，客户端没有访问内容的权限；与 401 Unauthorized 不同，服务器知道客户端的身份。
++ 404 Not Found，服务器找不到请求的资源。
++ 405 Method Not Allowed，服务器知道请求方法，但目标资源不支持该方法。
++ 500 Internal Server Error，服务器遇到了不知道如何处理的情况。
++ 502 Bad Gateway，该状态码表明扮演网关或代理角色的服务器，从上游服务器中接收到的响应是无效的
++ 503 Service Unavailable，服务器没有准备好处理请求。
 ## HTTP/0.9
 仅支持 Get仅能访问 HTML 格式资源  
 ## HTTP/1.0
