@@ -180,8 +180,8 @@ function createElm (
     const data = vnode.data
     const children = vnode.children
     const tag = vnode.tag
+    // 标签存在
     if (isDef(tag)) {
-      // 未知标签
       // 创建新节点
       vnode.elm = vnode.ns
         ? nodeOps.createElementNS(vnode.ns, tag)
