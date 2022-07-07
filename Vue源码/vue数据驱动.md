@@ -63,12 +63,12 @@ updateComponent = () => {
 
 // src/core/instance/lifecycle.js  
 Vue.prototype._update = function (vnode: VNode, hydrating?: boolean) {
-  // oldNode不存在，初始化渲染
+  // oldNode不存在，初始化渲染，即初始化页面时走这里
   if (!prevVnode) {
     // initial render
     vm.$el = vm.__patch__(vm.$el, vnode, hydrating, false /* removeOnly */)
   } else {
-    // updates
+    // updates 响应式数据更新时，即更新页面时走这里
     vm.$el = vm.__patch__(prevVnode, vnode)
   }
 }
