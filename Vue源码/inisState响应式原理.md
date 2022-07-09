@@ -1,0 +1,26 @@
+## inisState过程
+##### 始化Vue实例会执行 initState方法，处理props，methods，data，computed，watcher
+##### 处理 props 对象，为 props 对象的每个属性设置响应式，并将其代理到 vm 实例上
+##### 理 methos 对象，校验每个属性的值是否为函数、和 props 属性比对进行判重处理，最后得到 vm[key] = methods[key]
+##### 处理data
++ 判重处理，data 对象上的属性不能和 props、methods 对象上的属性相同
++ 理 data 对象上的属性到 vm 实例
++ 为 data 对象的上数据设置响应式 ()。
+##### 处理computed
++ 为 computed[key] 创建 watcher 实例，默认是懒执行
++ 代理 computed[key] 到 vm 实例
++ 判重，computed 中的 key 不能和 data、props 中的属性重复
++ 执行函数的computed.key的值(getter函数) 得到函数返回的值给watcher的value，将dirty改为false（不会在执行get函数），更新会触发update，dirty->true
+##### 处理 watch 对象
++ 为 每个 watch.key 创建 watcher 实例，key 和 watcher 实例可能是 一对多 的关系
++ 如果设置了 immediate，则立即执行 回调函数
+
+## 响应式原理
++ 响应式的核心是通过 Object.defineProperty 拦截对数据的访问和设置
++ 响应式的数据分为两类：对象和数组
+##### 对象，循环遍历对象的所有属性，为每个属性设置 getter、setter，以达到拦截访问和设置的目的，如果属性值依旧为对象，则递归为属性值上的每个 key 设置 getter、setter
++ 访问数据时（obj.key)进行依赖收集，在 dep 中存储相关的 watcher
++ 设置数据时由 dep 通知相关的 watcher 去更新
+##### 数组，增强数组的那 7 个可以更改自身的原型方法（push,pop,shift，unshift,splice,sort,reverse)这些方法的操作
++ 添加新数据时进行响应式处理，然后由 dep 通知 watcher 去更新
++ 删除数据时，也要由 dep 通知 watcher 去更新
