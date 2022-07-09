@@ -8,7 +8,7 @@
 + initRender,处理渲染函数，解析组件的插槽信息，得到 vm.$slot，，vm._c它是被模板编译成的 render 函数使用,vm.$createElement是用户手写 render 方法使用的
 + 调用beforeCreate钩子函数
 + 初始化inject配置项，返回一个result[key] = val 配置对象，对数据进行响应式处理
-+ initState 数据相应，处理 props、methods、data、computed、watch
++ initState 数据响应，处理 props、methods、data、computed、watch
 + 解析provide对象 将其挂载到 vm._provided 属性上
 + 调用 created 钩子函数 到这里可以看出我们在beforecreate之前是获取不到数据的，最先能获取数据的生命周期就是create
 + 挂载阶段  有 el 项，自动挂载，没有手动挂载
