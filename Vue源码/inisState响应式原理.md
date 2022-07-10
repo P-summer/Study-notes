@@ -16,6 +16,7 @@
 + 如果设置了 immediate，则立即执行 回调函数
 
 ## 响应式原理
++ 调用observe，非对象和 VNode 实例不做响应式处理，创建观察者实例 Observer 判断是否是数组，对象 __defineReactive__
 + 响应式的核心是通过 Object.defineProperty 拦截对数据的访问和设置
 + 响应式的数据分为两类：对象和数组
 ##### 对象，循环遍历对象的所有属性，为每个属性设置 getter、setter，以达到拦截访问和设置的目的，如果属性值依旧为对象，则递归为属性值上的每个 key 设置 getter、setter
