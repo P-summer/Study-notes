@@ -22,7 +22,6 @@ class ConsoleLogOnBuildWebpackPlugin {
 }
 module.exports = ConsoleLogOnBuildWebpackPlugin;
 ```
-+ 
 
 ## webpack工作流程
 + 初始化参数：校验配置文件，初始化本次构建的配置参数
