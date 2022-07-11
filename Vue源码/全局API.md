@@ -1,0 +1,72 @@
+## Vue.use(plugin) 做了什么
++ 首先判断该插件是否已经安装过
++ 如果没有，则执行插件提供的 install 方法安装插件，具体做什么有插件自己决定
+
+## Vue.mixin(options) 做了什么
+负责在 Vue 的全局配置上合并 options 配置。然后在每个组件生成 vnode 时会将全局配置合并到组件自身的配置上来
++ 标准化 options 对象上的 props、inject、directive 选项的格式
++ 处理 options 上的 extends 和 mixins，分别将他们合并到全局配置上
++ 然后将 options 配置和全局配置进行合并，选项冲突时 options 配置会覆盖全局配置
+
+## Vue.component(compName, Comp)
+负责注册全局组件。其实就是将组件配置注册到全局配置的 components 选项上（options.components），然后各个子组件在生成 vnode 时会将全局的 components 选项合并到局部的
+components 配置项上。
++ 如果第二个参数为空，则表示获取 compName 的组件构造函数
++ 如果 Comp 是组件配置对象，则使用 Vue.extend 方法得到组件构造函数，否则直接进行下一步
++ 在全局配置上设置组件信息，this.options.components.compName = CompConstructor
+
+## Vue.directive('my-directive', {xx})
+负责在全局注册过滤器 my-filter，然后每个子组件在生成 vnode 时会将全局的 filters 选项合并到局部的 filters 选项中。
++ 如果没有提供第二个参数，则获取 my-filter 过滤器的回调函数
++ 如果提供了第二个参数，则是设置 this.options.filters['my-filter'] = function(val) {xx}。
+
+## Vue.extend(options) 
+ue.extend 基于 Vue 创建一个子类，参数 options 会作为该子类的默认全局配置，就像 Vue 的默认全局配置一样。所以通过 Vue.extend 扩展一个子类，
+一大用处就是内置一些公共配置，供子类的子类使用。
++ 定义子类构造函数，这里和 Vue 一样，也是调用 _init(options)
++ 合并 Vue 的配置和 options，如果选项冲突，则 options 的选项会覆盖 Vue 的配置项
++ 给子类定义全局 API，值为 Vue 的全局 API，比如 Sub.extend = Super.extend，这样子类同样可以扩展出其它子类
++ 返回子类 Sub
+
+## Vue.set(target, key, val)
+由于 Vue 无法探测普通的新增 property (比如 this.myObject.newProperty = 'hi')，所以通过 Vue.set 为向响应式对象中添加一个 property，可以确保这个新 property 同样是响应式的，
+且触发视图更新。
++ 更新数组指定下标的元素：Vue.set(array, idx, val)，内部通过 splice 方法实现响应式更新
++ 更新对象已有属性：Vue.set(obj, key ,val)，直接更新即可 => obj[key] = val
++ 不能向 Vue 实例或者 $data 动态添加根级别的响应式数据
++ Vue.set(obj, key, val)，如果 obj 不是响应式对象，会执行 obj[key] = val，但是不会做响应式处理
++ Vue.set(obj, key, val)，为响应式对象 obj 增加一个新的 key，则通过 defineReactive 方法设置响应式，并触发依赖更新
+
+## Vue.delete(target, key)
+删除对象的 property。如果对象是响应式的，确保删除能触发更新视图。这个方法主要用于避开 Vue 不能检测到 property 被删除的限制，但是你应该很少会使用它。
+当然同样不能删除根级别的响应式属性。
++ Vue.delete(array, idx)，删除指定下标的元素，内部是通过 splice 方法实现的
++ 删除响应式对象上的某个属性：Vue.delete(obj, key)，内部是执行 delete obj.key，然后执行依赖更新即可
+
+## Vue.nextTick(cb)
+在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM
++ 利用浏览器微任务宏任务
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
