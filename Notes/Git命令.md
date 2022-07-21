@@ -30,3 +30,6 @@ npm config set registry=http://registry.npmjs.org
 如果没有安装或vue的2.0版本的话，直接在全局的命令窗口：cnpm i -g @vue/cli  
 检查版本号	vue -V，vue create 项目名称  
 package.json文件的scripts下的vue-cli-service serve后面加--open默认打开浏览器
+
+
+tree /f > list.txt 获取项目代码目录结构
