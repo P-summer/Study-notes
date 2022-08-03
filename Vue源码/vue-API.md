@@ -1,4 +1,4 @@
-### v-model
+## v-model
 v-model本质上是语法糖，它负责监听用户的输入事件以更新数据，并对一些极端场景进行一些特殊处理。  
 ```javascript
 <input type='radio' value='1' v-model='foo'/>
@@ -19,3 +19,46 @@ export default {
   }
 }
 ```
+## slot
+```html
+<div class="container">
+  <header>
+    <slot name="header" v-bind:user="info"></slot>
+  </header>
+  <main>
+    <slot></slot>
+  </main>
+  <footer>
+    <slot name="footer"></slot>
+  </footer>
+</div>
+
+// 2.6
+<base-layout>
+  <template v-slot:header v-slot:header="props">
+    <h1>Here might be a page title</h1>
+  </template>
+
+  <p>A paragraph for the main content.</p>
+  <p>And another one.</p>
+
+  <template v-slot:footer>
+    <p>Here's some contact info</p>
+  </template>
+</base-layout>
+
+// 2.5及以前
+<template slot="header" slot-scope="slotProps">
+  <h1>Here might be a page title</h1>
+</template>
+// 或者可用放普通元素
+<h1 slot="header">Here might be a page title</h1>
+
+```
+#### 编译解析
++ 先判断 template 上是否使用 scope 或 slot-scope，校验 slot-scope 是否和 v-for 同时使用
++ 处理 slot="xxx" 旧的具名插槽的写法，获取插槽名和动态插槽名
++ 处理2.6版本新用法，在 tempalte 标签上，得到 v-slot 的值，不同插槽语法禁止混合使用，得到插槽名，是否动态插槽和作用域插槽的值
++ 处理组件上的 v-slot，el 不是组件的话，提示 v-slot 只能出现在组件上或 template 标签上； 获取插槽名称以及是否为动态插槽，将每一个孩子的 parent 属性都设置为 slotContainer（也就是 template 元素）
++ 不要在 slot 标签上使用 key 属性
+
