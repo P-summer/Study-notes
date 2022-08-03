@@ -3,7 +3,7 @@ v-model本质上是语法糖，它负责监听用户的输入事件以更新数�
 ```javascript
 <input type='radio' value='1' v-model='foo'/>
 // 等价于
-<input type='type' value='1'
+<input type='radio' value='1'
 :checked="foo == '1'"
 @change="foo = $event.target.value" />
 ```
