@@ -1,11 +1,21 @@
 ## v-model
-v-model本质上是语法糖，它负责监听用户的输入事件以更新数据，并对一些极端场景进行一些特殊处理。  
++ v-model本质上是语法糖，它负责监听用户的输入事件以更新数据，并对一些极端场景进行一些特殊处理。
++ 
 ```javascript
 <input type='radio' value='1' v-model='foo'/>
 // 等价于
 <input type='radio' value='1'
 :checked="foo == '1'"
 @change="foo = $event.target.value" />
+
+// v-model数据双向绑定原理：给 el 添加一个 prop，相当于我们在 input 上动态绑定了 value，又给 el 添加了事件处理，相当于在 input 上绑定了 input 事件
+addProp(el, 'value', `(${value})`)
+addHandler(el, event, code, null, true)
+
+<input
+  v-bind:value="message"
+  v-on:input="message=$event.target.value"
+>
 ```
 vue2给组件提供了 __model__ 属性，可以让用户自定义 __传值的prop名__ 和 __更新值的事件名__ 。  
 v-model是 __双向绑定，单项数据流__ (子组件不能改变父组件传递给它的prop属性，推荐做法是抛出事件，通知父组件自行改变)  
