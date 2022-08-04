@@ -1,6 +1,6 @@
 ## v-model
 + v-model本质上是语法糖，它负责监听用户的输入事件以更新数据，并对一些极端场景进行一些特殊处理。
-+ 处理组件时，判断 返回一个el.model对象，后续加在data字符串里，生成子组件时会对 data.model 的情况做处理（transformModel）：
++ 处理组件时，判断 返回一个el.model对象，后续加在data字符串里，createComponent生成子组件时会对 data.model 的情况做处理（transformModel）：
 给 data.props 添加 data.model.value，并且给data.on 添加 data.model.callback
 
 ```javascript
@@ -85,7 +85,18 @@ export default {
 #### 编译解析
 + 先判断 template 上是否使用 scope 或 slot-scope，校验 slot-scope 是否和 v-for 同时使用
 + 处理 slot="xxx" 旧的具名插槽的写法，获取插槽名和动态插槽名
-+ 处理2.6版本新用法，在 tempalte 标签上，得到 v-slot 的值，不同插槽语法禁止混合使用，得到插槽名，是否动态插槽和作用域插槽的值
++ 处理2.6版本新用法，在 tempalte 标签上，得到 v-slot 的值，不同插槽语法禁止混合使用，得到插槽名（slotTarget），是否动态插槽和作用域插槽的值
 + 处理组件上的 v-slot，el 不是组件的话，提示 v-slot 只能出现在组件上或 template 标签上； 获取插槽名称以及是否为动态插槽，将每一个孩子的 parent 属性都设置为 slotContainer（也就是 template 元素）
 + 不要在 slot 标签上使用 key 属性
+
+#### generate生成code
++ 
+
+
+
+
+
+
+
+
 
