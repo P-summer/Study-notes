@@ -1,6 +1,8 @@
 ## v-model
 + v-model本质上是语法糖，它负责监听用户的输入事件以更新数据，并对一些极端场景进行一些特殊处理。
-+ 
++ 处理组件时，判断 返回一个el.model对象，后续加在data字符串里，生成子组件时会对 data.model 的情况做处理（transformModel）：
+给 data.props 添加 data.model.value，并且给data.on 添加 data.model.callback
+
 ```javascript
 <input type='radio' value='1' v-model='foo'/>
 // 等价于
@@ -16,6 +18,21 @@ addHandler(el, event, code, null, true)
   v-bind:value="message"
   v-on:input="message=$event.target.value"
 >
+// v-model组件  生成code
+el.model = {
+  callback:'function ($$v) {message=$$v}',
+  expression:'"message"',
+  value:'(message)'
+}
+// 创建组件
+data.props = {
+  value: (message),
+}
+data.on = {
+  input: function ($$v) {
+    message=$$v
+  }
+} 
 ```
 vue2给组件提供了 __model__ 属性，可以让用户自定义 __传值的prop名__ 和 __更新值的事件名__ 。  
 v-model是 __双向绑定，单项数据流__ (子组件不能改变父组件传递给它的prop属性，推荐做法是抛出事件，通知父组件自行改变)  
