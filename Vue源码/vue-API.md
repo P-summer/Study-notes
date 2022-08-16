@@ -107,8 +107,9 @@ if (el.slotTarget && !el.slotScope) {
 + 当数据发送变化,patchVnode 在做各种 diff 之前，会先执行 prepatch更新组件触发keepalive的render  patch
 + 并且在执行 init 钩子函数的时候不会再执行组件的 mount 过程了
 ```javascript
- // 第一次渲染的时候，vnode.componentInstance 为 undefined，vnode.data.keepAlive 为 true，因为它的父组件 <keep-alive> 的 render 函数会先执行，
- // 那么该 vnode 缓存到内存中，并且设置 vnode.data.keepAlive 为 true，因此 isReactivated 为 false，那么走正常的 init 的钩子函数执行组件的 mount
+ // 第一次渲染的时候，vnode.componentInstance 为 undefined，vnode.data.keepAlive 为 true，
+ // 因为它的父组件 <keep-alive> 的 render 函数会先执行， 那么该 vnode 缓存到内存中，
+ // 并且设置 vnode.data.keepAlive 为 true，因此 isReactivated 为 false，那么走正常的 init 的钩子函数执行组件的 mount
  const isReactivated = isDef(vnode.componentInstance) && i.keepAlive
 ```
 
