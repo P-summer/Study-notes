@@ -83,6 +83,7 @@ export default {
 
 ```
 #### 编译解析
++ processSlot先处理父组件，生成函数 接下来编译子组件，同样在 parser 阶段会执行 processSlot 处理函数
 + 先判断 template 上是否使用 scope 或 slot-scope，校验 slot-scope 是否和 v-for 同时使用
 + 处理 slot="xxx" 旧的具名插槽的写法，获取插槽名和动态插槽名
 + 处理2.6版本新用法，在 tempalte 标签上，得到 v-slot 的值，不同插槽语法禁止混合使用，得到插槽名（slotTarget），是否动态插槽和作用域插槽的值
@@ -90,7 +91,14 @@ export default {
 + 不要在 slot 标签上使用 key 属性
 
 #### generate生成code
-+ 
++ genData 会给 data 添加一个 slot 属性，并指向 slotTarget; 
++ genSlot生产 ```_t``` 函数， ```_t``` 函数对应的就是 renderSlot，获取插槽内容，有就返回，没有就返回默认内容（this.$slots(vm.$slots)在initRender通过resolveSlots获取）
+
+```javascript
+if (el.slotTarget && !el.slotScope) {
+  data += `slot:${el.slotTarget},`
+}
+```
 
 
 
