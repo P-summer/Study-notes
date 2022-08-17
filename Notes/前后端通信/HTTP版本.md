@@ -25,7 +25,7 @@
 + Content-Type 扩展传输内容格式（图片、音视频、二进制等都可以传输）
 + 
 ## HTTP/1.1
-+ 新增  keep-alive 来让HTTP重用TCP链接，在一个 TCP 连接上可以传送多个 HTTP 请求，避免了因为多次建立 TCP 连接的时间消耗和延时(请求还是一个一个串行发的,存在队头阻塞问题)
++ 新增  keep-alive 来让HTTP重用TCP链接，在一个 TCP 连接上可以传送多个 HTTP 请求，避免了因为多次建立 TCP 连接的时间消耗和延时(请求还是一个一个串行发的,存在队头阻塞问题)，可以并发请求或者域名分片（二级域名）解决
 + 支持pipeline网络传输(管道化连接)
 + HTTP/1.1 新增了 ETag、If-Modified-Since、If-Match 、If-None-Match 等新的请求头来控制缓存  cache control
 + HTTP/1.1 在请求头中引入了 Accept-Ranges，支持断点续传的功能
