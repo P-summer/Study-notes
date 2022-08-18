@@ -7,9 +7,10 @@
 ##### loader
 + webpack 只能理解 JavaScript 文件。loader 让 webpack 能够去处理其他类型的文件，并将它们转换为有效 模块。
 + 在module的rules数组里配置必须包含两个属性：test（识别出哪些文件会被转换）、use（定义出在进行转换时，应该使用哪个 loader）
++ 可以配置多个loader(从下到上，从左到右)，支持链式调用
 ##### plugin
 + 就是插件，插件可以扩展 Webpack 的功能，包括：打包优化，资源管理，注入环境变量。
-+ require()引用，添加到plugins数组,插件可以携带参数/选项需向 plugins 属性传入一个 new 实例。
++ require()引用，添加到plugins数组,插件可以携带参数/选项需向 plugins 属性传入一个 new 实例（插件可以携带参数/选项）。
 + webpack 插件是一个具有 apply 方法的 JavaScript 对象。apply 方法会被 webpack compiler 调用，并且在 整个 编译生命周期都可以访问 compiler 对象。
 ```javascript
 const pluginName = 'ConsoleLogOnBuildWebpackPlugin';
