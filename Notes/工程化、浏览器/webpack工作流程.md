@@ -43,7 +43,6 @@ HMR的核心就是客户端从服务端拉去更新后的文件，准确的说�
 + 压缩代码，图片压缩，Tree shaking
 + 使用 cache-loader 启用持久化缓存。使用 package.json 中的 "postinstall" 清除缓存目录。
 + 使用 DllPlugin 将更改不频繁的代码进行单独编译。改善引用程序的编译速度
-+ 使用 cache-loader 启用持久化缓存。使用 package.json 中的 "postinstall" 清除缓存目录。
 
 ## 如何写一个loader
 + Loader 支持链式调用，所以开发上需要严格遵循“单一职责”，每个 Loader 只负责自己需要负责的事情。
