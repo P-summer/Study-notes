@@ -27,7 +27,7 @@
 ## HTTP/1.1
 + 新增  keep-alive 来让HTTP重用TCP链接，在一个 TCP 连接上可以传送多个 HTTP 请求，避免了因为多次建立 TCP 连接的时间消耗和延时(请求还是一个一个串行发的,存在队头阻塞问题)，__可以并发请求或者域名分片（二级域名）解决__
 + 支持pipeline网络传输(管道化连接)
-+ HTTP/1.1 新增了 ETag、If-Modified-Since、If-Match 、If-None-Match 等新的请求头来控制缓存  cache control
++ HTTP/1.1 新增了 ETag、If-None-Match、If-Match 、If-Modified-Since 等新的请求头来控制缓存  cache control
 + HTTP/1.1 在请求头中引入了 Accept-Ranges，支持断点续传的功能
 + 在 HTTP/1.0 中认为每台服务器都有唯一的 IP 地址，但随着虚拟主机技术的发展，多个主机共享一个 IP 地址越发普遍，HTTP/1.1 的请求消息和响应消息都应该支持 __Host__ 头域，且请求消息中如果没有 Host 头域会报 400 错误
 + 正式加入了 __OPTIONS__ 方法，其主要用于 CORS – Cross Origin Resource Sharing 应用
