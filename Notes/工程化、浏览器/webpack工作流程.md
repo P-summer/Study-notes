@@ -38,11 +38,14 @@ Webpack 的热更新又称热替换（Hot Module Replacement），缩写为 HMR�
 HMR的核心就是客户端从服务端拉去更新后的文件，准确的说是 chunk diff (chunk 需要更新的部分)，实际上 WDS（webpack-dev-server） 与浏览器之间维护了一个 Websocket，当本地资源发生变化时，WDS 会向浏览器推送更新，并带上构建时的 hash，让客户端与上一次资源进行对比。客户端对比出差异后会向 WDS 发起 Ajax 请求来获取更改内容(文件列表、hash)，这样客户端就可以再借助这些信息继续向 WDS 发起 jsonp 请求获取该chunk的增量更新。后续的部分由 HotModulePlugin 来完成
 
 ## 优化webpack的构建速度
++ thread-loader 多进程打包，可以大大提高构建的速度，使用方法是将thread-loader放在比较费时间的loader之前，比如babel-loader
 + 使用高版本的 Webpack 和 Node.js
 + 每个额外的 loader/plugin 都有启动时间。尽量少使用不同的工具。
-+ 压缩代码，图片压缩，Tree shaking
++ 压缩代码，图片压缩，Tree shaking；模块懒加载；Gzip；小图片转base64；合理配置hash
 + 使用 cache-loader 启用持久化缓存。使用 package.json 中的 "postinstall" 清除缓存目录。
 + 使用 DllPlugin 将更改不频繁的代码进行单独编译。改善引用程序的编译速度
++ 开启热更新;exclude：不需要处理的文件;include：需要处理的文件
++ 构建区分环境，区分环境去构建是非常重要的，我们要明确知道，开发环境时我们需要哪些配置，不需要哪些配置；而最终打包生产环境时又需要哪些配置，不需要哪些配置：
 
 ## 如何写一个loader
 + Loader 支持链式调用，所以开发上需要严格遵循“单一职责”，每个 Loader 只负责自己需要负责的事情。
