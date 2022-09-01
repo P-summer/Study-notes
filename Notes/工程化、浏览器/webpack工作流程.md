@@ -76,10 +76,9 @@ HMR的核心就是客户端从服务端拉去更新后的文件，准确的说�
 
 ## 优化webpack的构建速度
 + thread-loader 多进程打包，可以大大提高构建的速度，使用方法是将thread-loader放在比较费时间的loader之前，比如babel-loader
-+ 使用高版本的 Webpack 和 Node.js
-+ 每个额外的 loader/plugin 都有启动时间。尽量少使用不同的工具。
-+ 压缩代码，图片压缩，Tree shaking；模块懒加载；Gzip；小图片转base64；合理配置hash
 + 使用 cache-loader 启用持久化缓存。使用 package.json 中的 "postinstall" 清除缓存目录。
++ 使用高版本的 Webpack 和 Node.js
++ 压缩代码，图片压缩，Tree shaking；模块懒加载；Gzip；小图片转base64；合理配置hash
 + 开启热更新;exclude：不需要处理的文件;include：需要处理的文件
 + 构建区分环境，区分环境去构建是非常重要的，我们要明确知道，开发环境时我们需要哪些配置，不需要哪些配置；而最终打包生产环境时又需要哪些配置，不需要哪些配置：
 
