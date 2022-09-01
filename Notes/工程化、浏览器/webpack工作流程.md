@@ -8,6 +8,17 @@
 + webpack 只能理解 JavaScript 文件。loader 让 webpack 能够去处理其他类型的文件，并将它们转换为有效 模块。
 + 在module的rules数组里配置必须包含两个属性：test（识别出哪些文件会被转换）、use（定义出在进行转换时，应该使用哪个 loader）
 + 可以配置多个loader(从下到上，从左到右)，支持链式调用
+
+##### 常用loader
++ css-loader、style-loader、postcss-loader、less-loader、sass-loader node-sass
++ file-loader：解决图片引入问题，并将图片 copy 到指定目录，默认为 dist
++ url-loader：当图片小于 limit 值的时候，会将图片转为 base64 编码，大于 limit 值的时候依然是使用 file-loader 进行拷贝
++ img-loader：压缩图片
++ babel-loader：加载 ES2015+ 代码并将其转换为 ES5
++ thread-loader：多进程配置
++ cache-loader：持久化缓存
+
+
 ##### plugin
 + 就是插件，插件可以扩展 Webpack 的功能，包括：打包优化，资源管理，注入环境变量。
 + require()引用，添加到plugins数组,插件可以携带参数/选项需向 plugins 属性传入一个 new 实例（插件可以携带参数/选项）。
@@ -23,6 +34,32 @@ class ConsoleLogOnBuildWebpackPlugin {
 }
 module.exports = ConsoleLogOnBuildWebpackPlugin;
 ```
+##### 常用插件
++ html-webpack-plugin：js 或者 css 文件可以自动引入到 Html 中
++ clean-webpack-plugin：自动清空打包目录
++ speed-measure-webpack-plugin：构建费时分析
++ webpack-bundle-analyzer：构建结果分析
++ optimize-css-assets-webpack-plugin:压缩css
++ terser-webpack-plugin：压缩JS
+
+## 其他配置
+##### 启动 devServer
+```javascript
+devServer: {
+  // 在设置 contentBase 之后，就直接到对应的静态目录下面去读取文件，而不需对文件做任何移动，节省了时间和性能开销。
+  contentBase: path.resolve(__dirname, 'public'), // 静态文件目录
+  compress: true, //是否启动压缩 gzip
+  port: 8080, // 端口号
+  // open:true  // 是否自动打开浏览器
+}
+```
+##### SourceMap 配置选择
+SourceMap 是一种映射关系，当项目运行后，如果出现错误，我们可以利用 SourceMap 反向定位到源码位置
+
+##### 三种 hash 值
++ hash ：任何一个文件改动，整个项目的构建 hash 值都会改变；
++ chunkhash：文件的改动只会影响其所在 chunk 的 hash 值；
++ contenthash：每个文件都有单独的 hash 值，文件的改动只会影响自身的 hash 值
 
 ## webpack工作流程
 + 初始化参数：校验配置文件，初始化本次构建的配置参数
