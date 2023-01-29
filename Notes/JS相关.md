@@ -115,8 +115,7 @@ son.sayAge() // 19
 + 构造继承:复制父类的实例属性给子类
 ```javascript
 function Son(name) {
-  Father.call(this, "Son props")
-  this.name = name
+  Father.call(this, name)
 }
 const son = new Son('son')
 son.sayName() // son
