@@ -54,18 +54,4 @@ Vue2 的 diff 算法时间复杂度为 O(n^2)，因为需要遍历旧子节点�
 
 Vue3 的 diff 算法
 
-Vue3 的 diff 算法采用的是双端比较的方式，即同时从旧子节点的头部和尾部开始遍历，同时从新子节点的头部和尾部开始遍历，比较过程中也分为四种情况：
-
-1. oldStartVnode 和 newStartVnode 相同，直接进行 patch，oldStartIdx 和 newStartIdx 分别加 1。
-
-2. oldEndVnode 和 newEndVnode 相同，直接进行 patch，oldEndIdx 和 newEndIdx 分别减 1。
-
-3. oldStartVnode 和 newEndVnode 相同，直接进行 patch，oldStartIdx 加 1，newEndIdx 减 1。
-
-4. oldEndVnode 和 newStartVnode 相同，直接进行 patch，oldEndIdx 减 1，newStartIdx 加 1。
-
-如果四种情况都不满足，则采用 key 的方式来进行比较，即将旧子节点和新子节点都转换成一个 key-value 对象，然后根据 key 的值来进行比较。如果新子节点中的某个节点在旧子节点中不存在，则说明是一个新节点，直接创建并插入到旧子节点的对应位置；如果旧子节点中的某个节点在新子节点中不存在，则说明是一个需要删除的节点，直接删除即可。
-
-遍历完成后，如果 oldStartIdx > oldEndIdx，说明旧子节点已经全部处理完了，此时将新子节点中剩余的节点都插入到旧子节点的末尾；如果 newStartIdx > newEndIdx，说明新子节点已经全部处理完了，此时将旧子节点中剩余的节点都删除。
-
-Vue3 的 diff 算法时间复杂度为 O(n)，因为采用了双端比较和 key 的方式来进行优化，可以大大减少比较的次数。
+Vue3 的 diff 算法采用的是双端比较的方式，即同时从新旧子节点的头部和尾部开始遍历，同时从新子节点的头部和尾部开始遍历
