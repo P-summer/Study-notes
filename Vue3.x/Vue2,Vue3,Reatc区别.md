@@ -30,3 +30,42 @@ Vue3和React都是流行的JavaScript框架，它们有一些相似之处，但�
 
 5. 性能：Vue3在性能方面做了很多优化，如更快的虚拟DOM算法、更小的运行时包等，而React则需要使用PureComponent和shouldComponentUpdate等手段来优化性能。
 
+
+### 详细说一下 Vue2 和 Vue3 diff 算法的详细过程。这两个算法的复杂度。
+Vue2 和 Vue3 的 diff 算法都是基于 Virtual DOM 的，但是在实现上有一些区别。
+
+Vue2 的 diff 算法
+
+Vue2 的 diff 算法采用的是双指针的方式，即分别有 oldStartIdx、oldEndIdx、newStartIdx、newEndIdx 四个指针分别指向旧的子节点的开始和结束位置以及新的子节点的开始和结束位置。在比较过程中，分为四种情况：
+
+1. oldStartVnode 和 newStartVnode 相同，直接进行 patch，oldStartIdx 和 newStartIdx 分别加 1。
+
+2. oldEndVnode 和 newEndVnode 相同，直接进行 patch，oldEndIdx 和 newEndIdx 分别减 1。
+
+3. oldStartVnode 和 newEndVnode 相同，直接进行 patch，oldStartIdx 加 1，newEndIdx 减 1。
+
+4. oldEndVnode 和 newStartVnode 相同，直接进行 patch，oldEndIdx 减 1，newStartIdx 加 1。
+
+如果四种情况都不满足，则遍历旧子节点，尝试在旧子节点中找到与 newStartVnode 相同的节点，如果找到了，则进行 patch，同时将旧子节点中对应的位置设置为 undefined，表示已经找到了。如果没有找到，则说明 newStartVnode 是一个新节点，直接创建并插入到旧子节点的开头位置。
+
+遍历完成后，如果 oldStartIdx > oldEndIdx，说明旧子节点已经全部处理完了，此时将新子节点中剩余的节点都插入到旧子节点的末尾；如果 newStartIdx > newEndIdx，说明新子节点已经全部处理完了，此时将旧子节点中剩余的节点都删除。
+
+Vue2 的 diff 算法时间复杂度为 O(n^2)，因为需要遍历旧子节点来寻找与新子节点相同的节点，如果旧子节点很多，这个过程会非常耗时。
+
+Vue3 的 diff 算法
+
+Vue3 的 diff 算法采用的是双端比较的方式，即同时从旧子节点的头部和尾部开始遍历，同时从新子节点的头部和尾部开始遍历，比较过程中也分为四种情况：
+
+1. oldStartVnode 和 newStartVnode 相同，直接进行 patch，oldStartIdx 和 newStartIdx 分别加 1。
+
+2. oldEndVnode 和 newEndVnode 相同，直接进行 patch，oldEndIdx 和 newEndIdx 分别减 1。
+
+3. oldStartVnode 和 newEndVnode 相同，直接进行 patch，oldStartIdx 加 1，newEndIdx 减 1。
+
+4. oldEndVnode 和 newStartVnode 相同，直接进行 patch，oldEndIdx 减 1，newStartIdx 加 1。
+
+如果四种情况都不满足，则采用 key 的方式来进行比较，即将旧子节点和新子节点都转换成一个 key-value 对象，然后根据 key 的值来进行比较。如果新子节点中的某个节点在旧子节点中不存在，则说明是一个新节点，直接创建并插入到旧子节点的对应位置；如果旧子节点中的某个节点在新子节点中不存在，则说明是一个需要删除的节点，直接删除即可。
+
+遍历完成后，如果 oldStartIdx > oldEndIdx，说明旧子节点已经全部处理完了，此时将新子节点中剩余的节点都插入到旧子节点的末尾；如果 newStartIdx > newEndIdx，说明新子节点已经全部处理完了，此时将旧子节点中剩余的节点都删除。
+
+Vue3 的 diff 算法时间复杂度为 O(n)，因为采用了双端比较和 key 的方式来进行优化，可以大大减少比较的次数。
