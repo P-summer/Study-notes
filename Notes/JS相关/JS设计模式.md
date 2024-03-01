@@ -140,3 +140,44 @@ console.log('c' in p, p.c); // false, 37
 发布订阅模式跟观察者模式很像，他们其实都有发布者和订阅者，但是他们是有区别的
 + 观察者模式的发布和订阅是互相依赖的
 + 发布订阅模式的发布和订阅是不互相依赖的，因为有一个统一调度中心（Vue EentBus）
+```javascript
+const pubSub = (function (){
+  const events = {};
+  function subscribe(type, listener){
+    if(!events[type]){
+      events[type]=[];
+    }
+    events[type].push(listener);
+  }
+  function publish(type,data){
+    if(!events[type]){
+      return
+    }
+    events[type].forEach(listener =>{
+      listener(data)
+    })
+  }
+  function unsubscribe(type,listener){
+    if(!events[type]){
+      return
+    }
+    const index = events[type].indexOf(listener)
+    if(index !==-1){
+      events[type].splice(index, 1);
+    }
+  }
+  return {
+    subscribe: subscribe,
+    publish: publish,
+    unsubscribe: unsubscribe
+  };
+})()
+// 示例
+function logger(data) {
+  console.log('Received data:', data);
+}
+pubsub.subscribe('event1', logger);
+pubsub.publish('event1', { message: 'Hello world!' }); // 输出: Received data: { message: 'Hello world!' }
+pubsub.unsubscribe('event1', logger);
+pubsub.publish('event1', { message: 'This will not be logged' }); // 没有输出
+```
