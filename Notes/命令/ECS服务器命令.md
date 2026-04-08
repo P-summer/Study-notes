@@ -15,6 +15,8 @@ pm2 monit
 pm2 restart ai-backend
 # 重载服务（零停机，适合热更新）
 pm2 reload ai-backend
+# 查看日志
+pm2 logs ai-backend --lines 20
 # 停止指定服务
 pm2 stop ai-backend
 # 停止所有服务
